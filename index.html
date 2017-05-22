@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+<textarea></textarea>
+
+<script type="text/javascript">
+document.querySelector('textarea').focus()
+let AudioContext = window.AudioContext || window.webkitAudioContext
+let audioCtx = new AudioContext()
+
+let oscillator = audioCtx.createOscillator()
+let gainNode = audioCtx.createGain()
+
+oscillator.connect(gainNode)
+gainNode.connect(audioCtx.destination)
+
+let initialFreq = 1000
+let initialVol = 0
+
+oscillator.start(0)
+
+gainNode.gain.value = initialVol
+
+let currentSound
+
+document.onkeydown = updatePage
+
+function updatePage(e) {
+    gainNode.gain.value = 10
+    currentSound = (e.keyCode - 65) * 100
+    console.log(currentSound)
+
+    oscillator.frequency.value = currentSound
+    setTimeout(() => {
+        gainNode.gain.value = 0
+    }, 50)
+}
+</script>
+</body>
+</html>
